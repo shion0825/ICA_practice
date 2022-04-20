@@ -16,4 +16,6 @@ infoMusic = audioinfo("music\music_mix1.wav");
 
 
 % BSS(speech, 0.5, 50, infoSpeech.TotalSamples, infoSpeech.SampleRate);
+tic
 BSS(music, 0.3, 50, infoMusic.TotalSamples, infoMusic.SampleRate);
+toc
