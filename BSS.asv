@@ -1,7 +1,8 @@
-function BSS(observeSignal, stepSize, numIterative, timeAxis, Fs)
+function [estSig1, estSig2] BSS(observeSignal, stepSize, numIterative, Fs)
 % function BSS(folderName, stepSize, numIterative, timeAxis, Fs)
 
 [size1, size2] = size(observeSignal);
+timeAxis = size2;
 y = zeros(size1, size2);     %yの初期化
 yAns = zeros(size1, size2);
 separMatrix = eye(size1);          %分離行列の初期値
@@ -13,14 +14,12 @@ J = zeros(numIterative, 1);        %J(W)の初期化
 for l = 1 : numIterative
     E = zeros(size1);    %Eの初期化
     y = separMatrix * observeSignal; 
-%     p = arrayfun(@tanh, y);
-    p = y / abs(y);
+    p = arrayfun(@tanh, y);
     R = (p* y.');
     E = E + R / timeAxis;
-%     k = arrayfun(@cosh, y) / pi;
-%     k = arrayfun(@log, 1 ./ k);
-%     J(l) = - sum(k, "all") / timeAxis - log(abs(det(separMatrix)));
-    J(l) = - sum(log(1 / 2arrayfun(@log,abs(y)), "all") / timeAxis - log(abs(det(separMatrix)));
+    k = arrayfun(@cosh, y) / pi;
+    k = arrayfun(@log, 1 ./ k);
+    J(l) = - sum(k, "all") / timeAxis - log(abs(det(separMatrix)));
     separMatrix = separMatrix - stepSize * (E - identMatrix) * separMatrix;  %W更新
 end
 

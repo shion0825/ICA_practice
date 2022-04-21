@@ -1,7 +1,8 @@
-function BSS(observeSignal, stepSize, numIterative, timeAxis, Fs)
+function [estSig1, estSig2] = BSS(observeSignal, stepSize, numIterative, Fs)
 % function BSS(folderName, stepSize, numIterative, timeAxis, Fs)
 
 [size1, size2] = size(observeSignal);
+timeAxis = size2;
 y = zeros(size1, size2);     %yの初期化
 yAns = zeros(size1, size2);
 separMatrix = eye(size1);          %分離行列の初期値
@@ -34,4 +35,7 @@ for i = 1 : size1
     fileName = "makesound" + num2str(i) + ".wav";
     audiowrite(fileName,yAns(i, :)/max(abs(yAns(i, :))),Fs);
 end
-plot(J)
+
+estSig1 = yAns(1, :).';
+estSig2 = yAns(2, :).';
+% plot(J)
